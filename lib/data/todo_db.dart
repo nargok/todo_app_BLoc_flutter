@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
@@ -23,6 +24,7 @@ class TodoDb {
   */
   final store = intMapStoreFactory.store('todos');
 
+  // initial db settings
   Database _database;
   Future get database async {
     if (_database == null) {
@@ -37,6 +39,38 @@ class TodoDb {
     final dbPath = join(docsPath.path, 'todos.db');
     final db = await dbFactory.openDatabase(dbPath);
     return db;
+  }
+
+  Future insertTodo(Todo todo) async {
+    await store.add(_database, todo.toMap());
+  }
+
+  Future updateTodo(Todo todo) async {
+    // Finder is helper for searching a given store
+    final finder = Finder(filter: Filter.byKey(todo.id));
+    await store.update(_database, todo.toMap(), finder: finder);
+  }
+
+  Future deleteTodo(Todo todo) async {
+    final finder =Finder(filter: Filter.byKey(todo.id));
+    await store.delete(_database, finder: finder);
+  }
+
+  Future deleteAll() async {
+    await store.delete(_database);
+  }
+
+  Future<List<Todo>> getTodos() async {
+    await database;
+    final finder = Finder(sortOrders: [
+      SortOrder('priority'),
+      SortOrder('id'),
+    ]);
+    final todosSnapshot = await store.find(_database, finder: finder);
+    return todosSnapshot.map((snapshot) {
+      final todo = Todo.fromMap(snapshot.value);
+      return todo;
+    }).toList();
   }
 
 
