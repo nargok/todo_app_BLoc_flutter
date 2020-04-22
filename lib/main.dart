@@ -47,5 +47,18 @@ class _HomePageState extends State {
       debugPrint(todo.name);
     });
 
+    Todo todoToUpdate = todos[0];
+    todoToUpdate.name = 'Call Tim';
+    await db.updateTodo(todoToUpdate);
+
+    Todo todoToDelete = todos[1];
+    await db.deleteTodo(todoToDelete);
+
+    debugPrint('After udpates');
+    todos = await db.getTodos();
+    todos.forEach((Todo todo) {
+      debugPrint(todo.name);
+    });
+
   }
 }

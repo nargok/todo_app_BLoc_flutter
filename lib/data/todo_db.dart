@@ -69,6 +69,7 @@ class TodoDb {
     final todosSnapshot = await store.find(_database, finder: finder);
     return todosSnapshot.map((snapshot) {
       final todo = Todo.fromMap(snapshot.value);
+      todo.id = snapshot.key;
       return todo;
     }).toList();
   }
