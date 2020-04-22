@@ -57,6 +57,13 @@ class TodoBloc {
       getTodos();
     });
   }
+
+  void dispose() {
+    _todosStreamController.close();
+    _todoInsertController.close();
+    _todoUpdateController.close();
+    _todoDeleteController.close();
+  }
 }
 
 
@@ -68,4 +75,5 @@ class TodoBloc {
   4. Creating the getters for streams and sinks
   5. Adding the logic of the BLoC
   6. Creating the constructor
+  7. Setting the dispose() method
 */
