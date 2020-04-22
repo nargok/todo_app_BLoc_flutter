@@ -24,6 +24,29 @@ class TodoBloc {
     todosSink.add(todos);
   }
 
+  List<Todo> returnTodos (todos) {
+    return todos;
+  }
+
+  void _deleteTodo(Todo todo) {
+    db.deleteTodo(todo).then((result) {
+      getTodos();
+    });
+  }
+
+  void _updateTodo(Todo todo) {
+    db.updateTodo(todo).then((result) {
+      getTodos();
+    });
+  }
+
+  void _addTodo(Todo todo) {
+    db.insertTodo(todo).then((result) {
+      getTodos();
+    });
+  }
+
+
 }
 
 
