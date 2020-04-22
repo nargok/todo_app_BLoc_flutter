@@ -12,6 +12,18 @@ class TodoBloc {
   final _todoUpdateController = StreamController<Todo>();
   final _todoDeleteController = StreamController<Todo>();
 
+  // constructor
+  TodoBloc() {
+    db = TodoDb();
+    getTodos();
+
+    // listen to changes
+    _todosStreamController.stream.listen(returnTodos);
+    _todoInsertController.stream.listen(_addTodo);
+    _todoUpdateController.stream.listen(_updateTodo);
+    _todoDeleteController.stream.listen(_deleteTodo);
+  }
+
   Stream<List<Todo>> get todos => _todosStreamController.stream;
   StreamSink<List<Todo>> get todosSink => _todosStreamController.sink;
   StreamSink<Todo> get todoInsertSink => _todoInsertController.sink;
@@ -45,16 +57,15 @@ class TodoBloc {
       getTodos();
     });
   }
-
-
 }
 
 
 
 /*
-1. Create the BLoC class
-2. Declaring the data that will change
-3. Setting the StreamControllers
-4. Creating the getters for streams and sinks
-5. Adding the logic of the BLoC
+  1. Create the BLoC class
+  2. Declaring the data that will change
+  3. Setting the StreamControllers
+  4. Creating the getters for streams and sinks
+  5. Adding the logic of the BLoC
+  6. Creating the constructor
 */
