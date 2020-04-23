@@ -1,68 +1,68 @@
 import 'dart:async';
-import '../data/todo.dart';
-import '../data/todo_db.dart';
+import '../data/shop_list.dart';
+import '../data/shop_list_db.dart';
 
 class TodoBloc {
-  TodoDb db;
-  List<Todo> todoList;
+  ShopListDb db;
+  List<ShopList> shopListBank;
 
-  final _todosStreamController = StreamController<List<Todo>>.broadcast();
+  final _shopListsStreamController = StreamController<List<ShopList>>.broadcast();
   // for update
-  final _todoInsertController = StreamController<Todo>();
-  final _todoUpdateController = StreamController<Todo>();
-  final _todoDeleteController = StreamController<Todo>();
+  final _shopListInsertController = StreamController<ShopList>();
+  final _shopListUpdateController = StreamController<ShopList>();
+  final _shopListDeleteController = StreamController<ShopList>();
 
   // constructor
   TodoBloc() {
-    db = TodoDb();
-    getTodos();
+    db = ShopListDb();
+    getShopLists();
 
     // listen to changes
-    _todosStreamController.stream.listen(returnTodos);
-    _todoInsertController.stream.listen(_addTodo);
-    _todoUpdateController.stream.listen(_updateTodo);
-    _todoDeleteController.stream.listen(_deleteTodo);
+    _shopListsStreamController.stream.listen(returnShopLists);
+    _shopListInsertController.stream.listen(_addTodo);
+    _shopListUpdateController.stream.listen(_updateTodo);
+    _shopListDeleteController.stream.listen(_deleteTodo);
   }
 
-  Stream<List<Todo>> get todos => _todosStreamController.stream;
-  StreamSink<List<Todo>> get todosSink => _todosStreamController.sink;
-  StreamSink<Todo> get todoInsertSink => _todoInsertController.sink;
-  StreamSink<Todo> get todoUpdateSink => _todoUpdateController.sink;
-  StreamSink<Todo> get todoDeleteSink => _todoDeleteController.sink;
+  Stream<List<ShopList>> get shopLists => _shopListsStreamController.stream;
+  StreamSink<List<ShopList>> get shopListsSink => _shopListsStreamController.sink;
+  StreamSink<ShopList> get shopListInsertSink => _shopListInsertController.sink;
+  StreamSink<ShopList> get shopListUpdateSink => _shopListUpdateController.sink;
+  StreamSink<ShopList> get shopListDeleteSink => _shopListDeleteController.sink;
 
-  Future getTodos() async {
-    List<Todo> todos = await db.getTodos();
-    todoList = todos;
-    todosSink.add(todos);
+  Future getShopLists() async {
+    List<ShopList> shopLists = await db.getShopLists();
+    shopListBank = shopLists;
+    shopListsSink.add(shopLists);
   }
 
-  List<Todo> returnTodos (todos) {
-    return todos;
+  List<ShopList> returnShopLists (shopLists) {
+    return shopLists;
   }
 
-  void _deleteTodo(Todo todo) {
-    db.deleteTodo(todo).then((result) {
-      getTodos();
+  void _deleteTodo(ShopList shopList) {
+    db.deleteTodo(shopList).then((result) {
+      getShopLists();
     });
   }
 
-  void _updateTodo(Todo todo) {
-    db.updateTodo(todo).then((result) {
-      getTodos();
+  void _updateTodo(ShopList shopList) {
+    db.updateTodo(shopList).then((result) {
+      getShopLists();
     });
   }
 
-  void _addTodo(Todo todo) {
-    db.insertTodo(todo).then((result) {
-      getTodos();
+  void _addTodo(ShopList shopList) {
+    db.insertTodo(shopList).then((result) {
+      getShopLists();
     });
   }
 
   void dispose() {
-    _todosStreamController.close();
-    _todoInsertController.close();
-    _todoUpdateController.close();
-    _todoDeleteController.close();
+    _shopListsStreamController.close();
+    _shopListInsertController.close();
+    _shopListUpdateController.close();
+    _shopListDeleteController.close();
   }
 }
 
