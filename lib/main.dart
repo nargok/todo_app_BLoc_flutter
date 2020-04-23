@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'data/todo.dart';
 import 'data/todo_db.dart';
 import 'bloc/todo_block.dart';
+import 'todo_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,10 +48,10 @@ class _HomePageState extends State {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (context) => TodoScreen(todo, true))
-//            );
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TodoScreen(todo, true))
+            );
           },
         ),
         body: Container(
@@ -74,12 +75,12 @@ class _HomePageState extends State {
                       trailing: IconButton(
                         icon: Icon(Icons.edit),
                         onPressed: () {
-//                          Navigator.push(
-//                            context,
-//                            MaterialPageRoute(
-//                              builder: (context) => TodoScreen(
-//                                snapshot.data[index], false))
-//                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TodoScreen(
+                                snapshot.data[index], false))
+                          );
                         },
                       ),
                     ),
