@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todoappblocpattern/shop_list_screen.dart';
 import 'data/todo.dart';
 import 'data/todo_db.dart';
 import 'bloc/todo_block.dart';
+import 'data/shop_list.dart';
+import 'data/shop_list_db.dart';
+import 'bloc/shop_list_block.dart';
 import 'todo_screen.dart';
 
 void main() => runApp(MyApp());
@@ -26,12 +30,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State {
-  TodoBloc todoBloc;
-  List<Todo> todos;
+  ShopListBloc shopListBloc;
+  List<ShopList> shopLists;
 
   @override
   void initState() {
-    todoBloc = TodoBloc();
+    shopListBloc = ShopListBloc();
     super.initState();
   }
 
@@ -39,39 +43,39 @@ class _HomePageState extends State {
   Widget build(BuildContext context) {
 //    _testData();
 
-    Todo todo = Todo('', '', '', 0);
-    todos = todoBloc.todoList;
+    ShopList shopList = ShopList('', 0, '', '');
+    shopLists = shopListBloc.shopListBank;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Todo List'),
+          title: Text('お買い物リスト'),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TodoScreen(todo, true))
+                MaterialPageRoute(builder: (context) => ShopListScreen(shopList, true))
             );
           },
         ),
         body: Container(
-          child: StreamBuilder<List<Todo>>(
-            stream: todoBloc.todos,
-            initialData: todos,
+          child: StreamBuilder<List<ShopList>>(
+            stream: shopListBloc.shopLists,
+            initialData: shopLists,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return ListView.builder(
                 itemCount: (snapshot.hasData) ? snapshot.data.length : 0,
                 itemBuilder: (context, index) {
                   return Dismissible( // swipe to delete
                     key: Key(snapshot.data[index].id.toString()),
-                    onDismissed: (_) => todoBloc.todoDeleteSink.add(snapshot.data[index]),
+                    onDismissed: (_) => shopListBloc.shopListDeleteSink.add(snapshot.data[index]),
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Theme.of(context).highlightColor,
                         child: Text("${snapshot.data[index].priority}"),
                       ),
                       title: Text("${snapshot.data[index].name}"),
-                      subtitle: Text("${snapshot.data[index].description}"),
+                      subtitle: Text("${snapshot.data[index].place}"),
                       trailing: IconButton(
                         icon: Icon(Icons.edit),
                         onPressed: () {
@@ -127,7 +131,7 @@ class _HomePageState extends State {
 
   @override
   void dispose() {
-    todoBloc.dispose();
+    shopListBloc.dispose();
     super.dispose();
   }
 }

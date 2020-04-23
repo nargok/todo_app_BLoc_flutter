@@ -2,7 +2,7 @@ import 'dart:async';
 import '../data/shop_list.dart';
 import '../data/shop_list_db.dart';
 
-class TodoBloc {
+class ShopListBloc {
   ShopListDb db;
   List<ShopList> shopListBank;
 
