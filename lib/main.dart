@@ -36,13 +36,22 @@ class _HomePageState extends State {
 
   @override
   Widget build(BuildContext context) {
-//    _testData();
+    _testData();
 
     Todo todo = Todo('', '', '', 0);
     todos = todoBloc.todoList;
     return Scaffold(
         appBar: AppBar(
           title: Text('Todo List'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => TodoScreen(todo, true))
+//            );
+          },
         ),
         body: Container(
           child: StreamBuilder<List<Todo>>(
@@ -52,9 +61,28 @@ class _HomePageState extends State {
               return ListView.builder(
                 itemCount: (snapshot.hasData) ? snapshot.data.length : 0,
                 itemBuilder: (context, index) {
-                  return Dismissible(
+                  return Dismissible( // swipe to delete
                     key: Key(snapshot.data[index].id.toString()),
                     onDismissed: (_) => todoBloc.todoDeleteSink.add(snapshot.data[index]),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Theme.of(context).highlightColor,
+                        child: Text("${snapshot.data[index].priority}"),
+                      ),
+                      title: Text("${snapshot.data[index].name}"),
+                      subtitle: Text("${snapshot.data[index].description}"),
+                      trailing: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+//                          Navigator.push(
+//                            context,
+//                            MaterialPageRoute(
+//                              builder: (context) => TodoScreen(
+//                                snapshot.data[index], false))
+//                          );
+                        },
+                      ),
+                    ),
                   );
                 },
               );
