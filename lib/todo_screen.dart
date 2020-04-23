@@ -12,6 +12,7 @@ class TodoScreen extends StatelessWidget {
   final TextEditingController txtPriority = TextEditingController();
 
   final TodoBloc bloc;
+
   /*
     The part after the colon in the TodoScreen constructor is an initializer list,
     a comma-separated list that you can use to initialize final fields with
@@ -39,6 +40,63 @@ class TodoScreen extends StatelessWidget {
     txtCompleteBy.text = todo.completeBy;
     txtPriority.text = todo.priority.toString();
 
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todo Details'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(padding),
+              child: TextField(
+                controller: txtName,
+                decoration:
+                    InputDecoration(border: InputBorder.none, hintText: 'Name'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(padding),
+              child: TextField(
+                controller: txtDescription,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: 'Description'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(padding),
+              child: TextField(
+                controller: txtCompleteBy,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: 'Complete by'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(padding),
+              child: TextField(
+                controller: txtPriority,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: 'Priority'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(padding),
+              child: MaterialButton(
+                color: Colors.green,
+                child: Text('Save'),
+                onPressed: () {
+                  save().then((_) => Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                        (Route<dynamic> route) => false,
+                      ));
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
