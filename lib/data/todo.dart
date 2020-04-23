@@ -10,7 +10,7 @@ class Todo {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'descriiption': description,
+      'description': description,
       'completeBy': completeBy,
       'priority': priority,
     };
