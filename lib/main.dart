@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'data/todo_db.dart';
 import 'data/shop_list.dart';
 import 'data/shop_list_db.dart';
 import 'bloc/shop_list_block.dart';
-//import 'todo_screen.dart';
 import 'shop_list_screen.dart';
 
 void main() => runApp(MyApp());
@@ -39,7 +37,7 @@ class _HomePageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    _testShopListData();
+//    _testShopListData();
 
     ShopList shopList = ShopList('', 0, '', '');
     shopLists = shopListBloc.shopListBank;
@@ -94,39 +92,6 @@ class _HomePageState extends State {
         ));
   }
 
-//  Future _testData() async {
-//    TodoDb db = TodoDb();
-//    await db.database;
-//    List<Todo> todos = await db.getTodos();
-//    await db.deleteAll();
-//    todos = await db.getTodos();
-//
-//    await db.insertTodo(
-//        Todo('Call Donald', 'And tell him about Daisy', '02/02/2020', 1));
-//    await db.insertTodo(Todo('By sugar', '1 Kg, brown', '02/02/2020', 2));
-//    await db.insertTodo(
-//        Todo('Go Running', '@12.00, with neigh-bours', '02/02/2020', 3));
-//    todos = await db.getTodos();
-//
-//    debugPrint('First insert');
-//    todos.forEach((Todo todo) {
-//      debugPrint(todo.name);
-//    });
-//
-//    Todo todoToUpdate = todos[0];
-//    todoToUpdate.name = 'Call Tim';
-//    await db.updateTodo(todoToUpdate);
-//
-//    Todo todoToDelete = todos[1];
-//    await db.deleteTodo(todoToDelete);
-//
-//    debugPrint('After udpates');
-//    todos = await db.getTodos();
-//    todos.forEach((Todo todo) {
-//      debugPrint(todo.name);
-//    });
-//  }
-//
   Future _testShopListData() async {
     ShopListDb db = ShopListDb();
     await db.database;
