@@ -13,15 +13,15 @@ class ShopListBloc {
   final _shopListDeleteController = StreamController<ShopList>();
 
   // constructor
-  TodoBloc() {
+  ShopListBloc() {
     db = ShopListDb();
     getShopLists();
 
     // listen to changes
     _shopListsStreamController.stream.listen(returnShopLists);
-    _shopListInsertController.stream.listen(_addTodo);
-    _shopListUpdateController.stream.listen(_updateTodo);
-    _shopListDeleteController.stream.listen(_deleteTodo);
+    _shopListInsertController.stream.listen(_addShopList);
+    _shopListUpdateController.stream.listen(_updateShopList);
+    _shopListDeleteController.stream.listen(_deleteShopList);
   }
 
   Stream<List<ShopList>> get shopLists => _shopListsStreamController.stream;
@@ -40,20 +40,20 @@ class ShopListBloc {
     return shopLists;
   }
 
-  void _deleteTodo(ShopList shopList) {
-    db.deleteTodo(shopList).then((result) {
+  void _deleteShopList(ShopList shopList) {
+    db.deleteShopList(shopList).then((result) {
       getShopLists();
     });
   }
 
-  void _updateTodo(ShopList shopList) {
-    db.updateTodo(shopList).then((result) {
+  void _updateShopList(ShopList shopList) {
+    db.updateShopList(shopList).then((result) {
       getShopLists();
     });
   }
 
-  void _addTodo(ShopList shopList) {
-    db.insertTodo(shopList).then((result) {
+  void _addShopList(ShopList shopList) {
+    db.insertShopList(shopList).then((result) {
       getShopLists();
     });
   }

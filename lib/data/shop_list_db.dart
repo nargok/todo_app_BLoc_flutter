@@ -41,17 +41,17 @@ class ShopListDb {
     return db;
   }
 
-  Future insertTodo(ShopList shopList) async {
+  Future insertShopList(ShopList shopList) async {
     await store.add(_database, shopList.toMap());
   }
 
-  Future updateTodo(ShopList shopList) async {
+  Future updateShopList(ShopList shopList) async {
     // Finder is helper for searching a given store
     final finder = Finder(filter: Filter.byKey(shopList.id));
     await store.update(_database, shopList.toMap(), finder: finder);
   }
 
-  Future deleteTodo(ShopList shopList) async {
+  Future deleteShopList(ShopList shopList) async {
     final finder =Finder(filter: Filter.byKey(shopList.id));
     await store.delete(_database, finder: finder);
   }

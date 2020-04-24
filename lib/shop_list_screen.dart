@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'bloc/todo_block.dart';
-import 'data/todo.dart';
 import 'bloc/shop_list_block.dart';
 import 'data/shop_list.dart';
 import 'main.dart';

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todoappblocpattern/shop_list_screen.dart';
-import 'data/todo.dart';
-import 'data/todo_db.dart';
-import 'bloc/todo_block.dart';
+//import 'data/todo_db.dart';
 import 'data/shop_list.dart';
 import 'data/shop_list_db.dart';
 import 'bloc/shop_list_block.dart';
-import 'todo_screen.dart';
+//import 'todo_screen.dart';
+import 'shop_list_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,7 +39,7 @@ class _HomePageState extends State {
 
   @override
   Widget build(BuildContext context) {
-//    _testData();
+    _testShopListData();
 
     ShopList shopList = ShopList('', 0, '', '');
     shopLists = shopListBloc.shopListBank;
@@ -72,7 +70,7 @@ class _HomePageState extends State {
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Theme.of(context).highlightColor,
-                        child: Text("${snapshot.data[index].priority}"),
+                        child: Text("${snapshot.data[index].price}"),
                       ),
                       title: Text("${snapshot.data[index].name}"),
                       subtitle: Text("${snapshot.data[index].place}"),
@@ -82,7 +80,7 @@ class _HomePageState extends State {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TodoScreen(
+                              builder: (context) => ShopListScreen(
                                 snapshot.data[index], false))
                           );
                         },
@@ -96,36 +94,69 @@ class _HomePageState extends State {
         ));
   }
 
-  Future _testData() async {
-    TodoDb db = TodoDb();
+//  Future _testData() async {
+//    TodoDb db = TodoDb();
+//    await db.database;
+//    List<Todo> todos = await db.getTodos();
+//    await db.deleteAll();
+//    todos = await db.getTodos();
+//
+//    await db.insertTodo(
+//        Todo('Call Donald', 'And tell him about Daisy', '02/02/2020', 1));
+//    await db.insertTodo(Todo('By sugar', '1 Kg, brown', '02/02/2020', 2));
+//    await db.insertTodo(
+//        Todo('Go Running', '@12.00, with neigh-bours', '02/02/2020', 3));
+//    todos = await db.getTodos();
+//
+//    debugPrint('First insert');
+//    todos.forEach((Todo todo) {
+//      debugPrint(todo.name);
+//    });
+//
+//    Todo todoToUpdate = todos[0];
+//    todoToUpdate.name = 'Call Tim';
+//    await db.updateTodo(todoToUpdate);
+//
+//    Todo todoToDelete = todos[1];
+//    await db.deleteTodo(todoToDelete);
+//
+//    debugPrint('After udpates');
+//    todos = await db.getTodos();
+//    todos.forEach((Todo todo) {
+//      debugPrint(todo.name);
+//    });
+//  }
+//
+  Future _testShopListData() async {
+    ShopListDb db = ShopListDb();
     await db.database;
-    List<Todo> todos = await db.getTodos();
+    List<ShopList> shopLists = await db.getShopLists();
     await db.deleteAll();
-    todos = await db.getTodos();
+    shopLists = await db.getShopLists();
 
-    await db.insertTodo(
-        Todo('Call Donald', 'And tell him about Daisy', '02/02/2020', 1));
-    await db.insertTodo(Todo('By sugar', '1 Kg, brown', '02/02/2020', 2));
-    await db.insertTodo(
-        Todo('Go Running', '@12.00, with neigh-bours', '02/02/2020', 3));
-    todos = await db.getTodos();
+    await db.insertShopList(
+        ShopList('お米', 1200, 'スーパー2', '無洗米'));
+    await db.insertShopList(ShopList('お酒', 900, 'スーパー2', '土佐鶴'));
+    await db.insertShopList(
+        ShopList('ごま油', 200, 'スーパー1', '黒ごま油'));
+    shopLists = await db.getShopLists();
 
     debugPrint('First insert');
-    todos.forEach((Todo todo) {
-      debugPrint(todo.name);
+    shopLists.forEach((ShopList s) {
+      debugPrint(s.name);
     });
 
-    Todo todoToUpdate = todos[0];
-    todoToUpdate.name = 'Call Tim';
-    await db.updateTodo(todoToUpdate);
+    ShopList shopListToUpdate = shopLists[0];
+    shopListToUpdate.name = 'Call Tim';
+    await db.updateShopList(shopListToUpdate);
 
-    Todo todoToDelete = todos[1];
-    await db.deleteTodo(todoToDelete);
+    ShopList shopListToDelete = shopLists[1];
+    await db.deleteShopList(shopListToDelete);
 
     debugPrint('After udpates');
-    todos = await db.getTodos();
-    todos.forEach((Todo todo) {
-      debugPrint(todo.name);
+    shopLists = await db.getShopLists();
+    shopLists.forEach((ShopList s) {
+      debugPrint(s.name);
     });
   }
 
